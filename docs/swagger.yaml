@@ -1,0 +1,148 @@
+basePath: /api/v1
+definitions:
+  dtos.DTOSport:
+    properties:
+      description:
+        maxLength: 300
+        type: string
+      title:
+        type: string
+    required:
+    - title
+    type: object
+  dtos.DTOSportUpdate:
+    properties:
+      description:
+        maxLength: 300
+        type: string
+      id:
+        type: string
+      title:
+        type: string
+    required:
+    - id
+    - title
+    type: object
+  dtos.GetSportByIDResponse:
+    properties:
+      Sport:
+        $ref: '#/definitions/dtos.DTOSport'
+    type: object
+  dtos.GetSportsResponse:
+    properties:
+      Sports:
+        items:
+          $ref: '#/definitions/dtos.DTOSport'
+        type: array
+      TotalPage:
+        example: 3
+        type: integer
+    type: object
+  dtos.Response:
+    properties:
+      message:
+        example: Successfully
+        type: string
+    type: object
+host: localhost:8000
+info:
+  contact: {}
+  description: This is a Gym API server.
+  title: Gym API
+  version: "1.0"
+paths:
+  /admin/sports:
+    get:
+      description: Get sports
+      parameters:
+      - description: Page number
+        in: query
+        name: pageNumber
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dtos.GetSportsResponse'
+      summary: Get sports
+      tags:
+      - Admin
+    patch:
+      description: Update sport
+      parameters:
+      - description: Sport
+        in: body
+        name: sport
+        required: true
+        schema:
+          $ref: '#/definitions/dtos.DTOSportUpdate'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dtos.Response'
+      summary: Update sport
+      tags:
+      - Admin
+    post:
+      description: Add a sport
+      parameters:
+      - description: Sport
+        in: body
+        name: sport
+        required: true
+        schema:
+          $ref: '#/definitions/dtos.DTOSport'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/dtos.Response'
+      summary: Add a sport
+      tags:
+      - Admin
+  /admin/sports/{id}:
+    delete:
+      description: Delete a sport
+      parameters:
+      - description: ID of the sport to delete
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dtos.Response'
+      summary: Delete a sport by id
+      tags:
+      - Admin
+    get:
+      description: Get sport
+      parameters:
+      - description: ID of the sport to get
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dtos.GetSportByIDResponse'
+      summary: Get sport
+      tags:
+      - Admin
+swagger: "2.0"

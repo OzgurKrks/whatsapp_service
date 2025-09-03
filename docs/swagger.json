@@ -1,0 +1,224 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "description": "This is a Gym API server.",
+        "title": "Gym API",
+        "contact": {},
+        "version": "1.0"
+    },
+    "host": "localhost:8000",
+    "basePath": "/api/v1",
+    "paths": {
+        "/admin/sports": {
+            "get": {
+                "description": "Get sports",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Admin"
+                ],
+                "summary": "Get sports",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Page number",
+                        "name": "pageNumber",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/dtos.GetSportsResponse"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "description": "Add a sport",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Admin"
+                ],
+                "summary": "Add a sport",
+                "parameters": [
+                    {
+                        "description": "Sport",
+                        "name": "sport",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/dtos.DTOSport"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "$ref": "#/definitions/dtos.Response"
+                        }
+                    }
+                }
+            },
+            "patch": {
+                "description": "Update sport",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Admin"
+                ],
+                "summary": "Update sport",
+                "parameters": [
+                    {
+                        "description": "Sport",
+                        "name": "sport",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/dtos.DTOSportUpdate"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/dtos.Response"
+                        }
+                    }
+                }
+            }
+        },
+        "/admin/sports/{id}": {
+            "get": {
+                "description": "Get sport",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Admin"
+                ],
+                "summary": "Get sport",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "ID of the sport to get",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/dtos.GetSportByIDResponse"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "description": "Delete a sport",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Admin"
+                ],
+                "summary": "Delete a sport by id",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "ID of the sport to delete",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/dtos.Response"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "dtos.DTOSport": {
+            "type": "object",
+            "required": [
+                "title"
+            ],
+            "properties": {
+                "description": {
+                    "type": "string",
+                    "maxLength": 300
+                },
+                "title": {
+                    "type": "string"
+                }
+            }
+        },
+        "dtos.DTOSportUpdate": {
+            "type": "object",
+            "required": [
+                "id",
+                "title"
+            ],
+            "properties": {
+                "description": {
+                    "type": "string",
+                    "maxLength": 300
+                },
+                "id": {
+                    "type": "string"
+                },
+                "title": {
+                    "type": "string"
+                }
+            }
+        },
+        "dtos.GetSportByIDResponse": {
+            "type": "object",
+            "properties": {
+                "Sport": {
+                    "$ref": "#/definitions/dtos.DTOSport"
+                }
+            }
+        },
+        "dtos.GetSportsResponse": {
+            "type": "object",
+            "properties": {
+                "Sports": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/dtos.DTOSport"
+                    }
+                },
+                "TotalPage": {
+                    "type": "integer",
+                    "example": 3
+                }
+            }
+        },
+        "dtos.Response": {
+            "type": "object",
+            "properties": {
+                "message": {
+                    "type": "string",
+                    "example": "Successfully"
+                }
+            }
+        }
+    }
+}
